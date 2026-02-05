@@ -1,0 +1,82 @@
+{
+  "name": "poly-db-lsp",
+  "displayName": "PolyDB LSP",
+  "description": "Language Server Protocol for 21 database systems",
+  "version": "0.1.0",
+  "publisher": "hyperpolymath",
+  "license": "PMPL-1.0-or-later",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "database",
+    "sql",
+    "nosql",
+    "postgresql",
+    "mongodb",
+    "redis",
+    "neo4j",
+    "mysql",
+    "sqlite"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "PolyDB LSP",
+      "properties": {
+        "polydb.lsp.path": {
+          "type": "string",
+          "default": "",
+          "description": "Path to poly_db_lsp executable"
+        },
+        "polydb.connections": {
+          "type": "array",
+          "default": [],
+          "description": "Database connections configuration"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "polydb.executeQuery",
+        "title": "PolyDB: Execute Query"
+      },
+      {
+        "command": "polydb.showSchema",
+        "title": "PolyDB: Show Schema"
+      },
+      {
+        "command": "polydb.createBackup",
+        "title": "PolyDB: Create Backup"
+      },
+      {
+        "command": "polydb.connectDatabase",
+        "title": "PolyDB: Connect to Database"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onLanguage:sql",
+    "onLanguage:cypher",
+    "onLanguage:mongodb"
+  ],
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.75.0",
+    "typescript": "^5.0.0",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.0"
+  }
+}

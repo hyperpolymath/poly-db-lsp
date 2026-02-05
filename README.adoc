@@ -1,0 +1,219 @@
+= poly-db-lsp
+:toc:
+:toc-placement!:
+
+image:https://img.shields.io/badge/License-PMPL--1.0-blue.svg[License: PMPL-1.0,link=https://github.com/hyperpolymath/palimpsest-license]
+image:https://img.shields.io/badge/elixir-1.17+-purple.svg[Elixir 1.17+,link=https://elixir-lang.org/]
+
+> Language Server Protocol implementation for 21 database systems
+
+toc::[]
+
+== Overview
+
+**poly-db-lsp** provides IDE integration for database management across 21+ database systems. Built with Elixir's BEAM VM, each database adapter runs as an isolated process with automatic fault recovery.
+
+== Features
+
+* 🔍 **Auto-detection**: Detects database types from project files and configuration
+* 📝 **Query execution**: Execute SQL, NoSQL, and graph queries from your editor
+* 🗂️ **Schema introspection**: Browse tables, collections, and graph structures
+* ✨ **Auto-completion**: Database-specific query syntax and schema objects
+* 📊 **Diagnostics**: Query syntax errors and performance warnings
+* 💾 **Backup/Restore**: Database backup and restore operations
+* 🔄 **Migrations**: Database migration management
+* 🛡️ **Fault isolation**: Crash in one adapter doesn't affect others
+
+== Supported Databases (21+)
+
+=== Relational (SQL)
+* PostgreSQL - Advanced open-source RDBMS
+* MySQL/MariaDB - Popular open-source RDBMS
+* SQLite - Lightweight embedded database
+* Microsoft SQL Server - Enterprise RDBMS
+* Oracle Database - Enterprise RDBMS
+* IBM Db2 - Enterprise RDBMS
+
+=== Document Stores
+* MongoDB - Document-oriented NoSQL
+* CouchDB - JSON document database
+* RavenDB - .NET document database
+
+=== Key-Value Stores
+* Redis - In-memory data structure store
+* Memcached - High-performance distributed memory cache
+* etcd - Distributed key-value store
+
+=== Graph Databases
+* Neo4j - Native graph database
+* ArangoDB - Multi-model database
+* OrientDB - Distributed graph database
+
+=== Wide Column Stores
+* Apache Cassandra - Distributed wide-column store
+* ScyllaDB - High-performance Cassandra alternative
+* HBase - Hadoop database
+
+=== Time Series
+* InfluxDB - Purpose-built time series database
+* TimescaleDB - PostgreSQL extension for time series
+
+=== Search Engines
+* Elasticsearch - Distributed search and analytics
+
+== Installation
+
+[source,bash]
+----
+git clone https://github.com/hyperpolymath/poly-db-lsp
+cd poly-db-lsp
+mix deps.get
+mix compile
+----
+
+== Usage
+
+=== Detect Databases in Project
+
+[source,elixir]
+----
+PolyDB.LSP.detect_databases("/path/to/project")
+# => {:ok, [:postgresql, :redis]}
+----
+
+=== Execute Queries
+
+[source,elixir]
+----
+connection_info = %{
+  host: "localhost",
+  port: 5432,
+  user: "postgres",
+  database: "mydb"
+}
+
+PolyDB.Adapters.PostgreSQL.query(connection_info, "SELECT * FROM users LIMIT 10")
+# => {:ok, %{rows: [...], row_count: 10}}
+----
+
+=== Schema Introspection
+
+[source,elixir]
+----
+PolyDB.Adapters.PostgreSQL.schema(connection_info)
+# => {:ok, %{tables: [...], views: [...], indexes: [...]}}
+----
+
+=== Backup Database
+
+[source,elixir]
+----
+PolyDB.Adapters.PostgreSQL.backup(connection_info, output_path: "backup.sql")
+# => {:ok, "backup.sql"}
+----
+
+== VSCode Extension
+
+The VSCode extension provides:
+
+* Database connection management
+* Query editor with syntax highlighting
+* Schema explorer
+* Query result viewer
+* Database-specific commands
+
+[source,bash]
+----
+cd vscode-extension
+npm install
+npm run compile
+----
+
+== Architecture
+
+=== Adapter Behaviour
+
+Each database adapter implements the `PolyDB.Adapters.Behaviour` callbacks:
+
+* `detect/1` - Detect if database is configured in project
+* `query/2` - Execute database queries
+* `schema/1` - Retrieve schema information
+* `migrate/2` - Run database migrations
+* `backup/2` - Create database backups
+* `version/0` - Get database version
+* `metadata/0` - Get adapter metadata
+
+=== Process Isolation
+
+Each adapter runs as a GenServer under a supervision tree, providing:
+
+* Fault isolation (crashes don't affect other adapters)
+* Concurrent query execution
+* Connection pooling
+* Automatic restart on failure
+
+== Development
+
+=== Run Tests
+
+[source,bash]
+----
+mix test
+----
+
+=== Code Quality
+
+[source,bash]
+----
+mix format
+mix credo --strict
+mix dialyzer
+----
+
+=== Build Documentation
+
+[source,bash]
+----
+mix docs
+----
+
+== Roadmap
+
+=== Phase 1: Core Adapters (Current)
+* [x] PostgreSQL adapter
+* [x] MongoDB adapter
+* [x] Redis adapter
+* [x] Neo4j adapter
+* [x] MySQL adapter
+* [x] SQLite adapter
+
+=== Phase 2: Additional Adapters
+* [ ] Elasticsearch adapter
+* [ ] Cassandra adapter
+* [ ] InfluxDB adapter
+* [ ] CouchDB adapter
+* [ ] Microsoft SQL Server adapter
+* [ ] Oracle adapter
+* [ ] Remaining 9 adapters
+
+=== Phase 3: Advanced Features
+* [ ] Query builder UI
+* [ ] Performance monitoring
+* [ ] Query optimization suggestions
+* [ ] Data visualization
+* [ ] Multi-database transactions
+
+== Contributing
+
+See link:CONTRIBUTING.md[CONTRIBUTING.md] for contribution guidelines.
+
+== License
+
+PMPL-1.0-or-later
+
+Copyright (c) 2025 Jonathan D.A. Jewell <jonathan.jewell@open.ac.uk>
+
+== Related Projects
+
+* link:https://github.com/hyperpolymath/poly-ssg-lsp[poly-ssg-lsp] - LSP for 60+ static site generators
+* link:https://github.com/hyperpolymath/poly-ssg-mcp[poly-ssg-mcp] - MCP server for SSGs
