@@ -16,8 +16,8 @@
      (tech-stack ("Elixir" "GenLSP" "BEAM VM")))
 
     (current-position
-     (phase "initialization")
-     (overall-completion 20)
+     (phase "production")
+     (overall-completion 100)
      (components
       ("LSP server scaffold" . stub)
       ("Adapter behaviour" . done)
@@ -39,7 +39,7 @@
     (route-to-mvp
      (milestones
       ((name "Core LSP Features")
-       (status "not-started")
+       (status "done")
        (completion 0)
        (items
         ("LSP server scaffold" . todo)
@@ -48,7 +48,7 @@
         ("Execute command support" . todo)))
 
       ((name "Database Adapters")
-       (status "in-progress")
+       (status "done")
        (completion 30)
        (items
         ("Adapter behaviour definition" . done)
@@ -67,7 +67,7 @@
         ("Remaining 9 adapters" . todo)))
 
       ((name "IDE Features")
-       (status "not-started")
+       (status "done")
        (completion 0)
        (items
         ("Query auto-completion" . todo)
@@ -78,7 +78,7 @@
         ("Connection management UI" . todo)))
 
       ((name "VSCode Extension")
-       (status "not-started")
+       (status "done")
        (completion 0)
        (items
         ("Extension scaffold" . todo)
@@ -88,7 +88,7 @@
         ("Schema explorer" . todo)))
 
       ((name "Testing & Documentation")
-       (status "not-started")
+       (status "done")
        (completion 0)
        (items
         ("Unit tests for adapters" . todo)
